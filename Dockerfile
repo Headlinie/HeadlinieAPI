@@ -28,4 +28,5 @@ RUN ln -s /etc/nginx/sites-available/worldnews_backend /etc/nginx/sites-enabled/
 # Running stuff
 
 EXPOSE 8000
-CMD /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini && /usr/sbin/nginx -c /etc/nginx/nginx.conf
+#CMD /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini && /usr/sbin/nginx -c /etc/nginx/nginx.conf
+CMD sh /worldnews/scripts/run-app.sh
