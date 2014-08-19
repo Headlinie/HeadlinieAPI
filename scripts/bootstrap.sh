@@ -11,7 +11,7 @@ echo "";
 echo "### Building image";
 echo "";
 
-docker build -t WorldNews/Backend .
+docker build -t worldnews/backend .
 
 echo "";
 echo "## Running container from image";
@@ -38,7 +38,7 @@ if [ "$DEV" == "--dev" ]; then
   echo "##"
   echo "#####"
   #docker run -p 8000:8000 -i -t WorldNews/Backend /bin/bash
-  docker run -p 8000:8000 -v /home/victor/Projects/worldnewsBackend:/worldnews/:rw -i -t WorldNews/Backend /bin/bash
+  docker run -p 8000:8000 -v /home/victor/Projects/worldnewsBackend:/worldnews/:rw -i -t worldnews/backend /bin/bash
 else
   # Non-interactive
   echo "#####"
@@ -46,5 +46,5 @@ else
   echo "## Server started on port 8000"
   echo "##"
   echo "#####"
-  docker run -p 8000:8000 -i -t WorldNews/Backend
+  docker run -p 8000:8000 -i -t worldnews/backend
 fi

@@ -16,16 +16,13 @@ while getopts 'cnf' flag; do
 done
 
 if [ "$nginx" ]; then
-  # Hello
-  echo "asd"
+  echo "Something"
 else
   if [ "$composer" ]; then
-    # Hello
-    echo "asd"
+    echo "Something"
   else
     if [ "$fpm" ]; then
-      # Hello
-      echo "asd";
+      echo "Something"
     else
       echo "[Error]  -- No services started, no need to do anything...";
       exit;
@@ -38,10 +35,10 @@ if [ "$composer" ]; then
 fi
 
 if [ "$fpm" ]; then
-/usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
+  /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
 fi
 
 if [ "$nginx" ]; then
-/usr/sbin/nginx -c /etc/nginx/nginx.conf
+  /usr/sbin/nginx -c /etc/nginx/nginx.conf
 fi
 
