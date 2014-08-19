@@ -28,6 +28,13 @@ new WorldNews\Sources\Reddit();
 
 //End approved classes
 
+$klein->respond('GET', '/', function() {
+    $sources = \WorldNews\BaseSource::getAllSources();
+
+    header("Content-Type: application/json");
+    return $sources->toJson();
+});
+
 $klein->respond('GET', '/sources', function() {
     $sources = \WorldNews\BaseSource::getAllSources();
 
