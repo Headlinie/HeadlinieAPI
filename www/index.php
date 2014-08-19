@@ -56,6 +56,7 @@ $klein->respond('GET', '/sources/[:source_name]/articles', function ($req, $res)
 });
 
 $klein->respond('GET', '/sources/[:source_name]/articles/[:article_url]', function ($req, $res) {
+    //TODO move all this logic into a proper place
 
     $article_url = urldecode($req->article_url);
 
@@ -72,15 +73,22 @@ $klein->respond('GET', '/sources/[:source_name]/articles/[:article_url]', functi
     } else {
 	$url = "http://www.readability.com/api/content/v1/parser?url=";
 	$url = $url . $article_url;
+	//TODO Move away the readability token to configuration/environmental variable
 	$url = $url . "&token=8680f644ff6278a311ff8c0a4713223b20a24f48";
 
-	$response = \WorldNews\Requestor::GET($url);
-	$cache->save($cache_name, $response);
+	try {
+	    $response = \WorldNews\Requestor::GET($url);
+	    $cache->save($cache_name, $response);
+	} catch (Exception $e) {
+	    $response = '{messages: "Something went wrong... Article ID: ' .md5($article_url). '"}';
+	}
     }
 
     $decoded = json_decode($response);
-    $decoded->content = \WorldNews\Utils::replace_images($decoded->content);
-    $decoded->content = \WorldNews\Utils::make_links_external($decoded->content);
+    if(isset($decoded->content)) {
+	$decoded->content = \WorldNews\Utils::replace_images($decoded->content);
+	$decoded->content = \WorldNews\Utils::make_links_external($decoded->content);
+    }
     $encoded = json_encode($decoded);
 
 

@@ -30,7 +30,8 @@ class Cache {
 
 	private function containsFolderInName($name)
 	{
-		if(explode('/', $name)[0] !== $name) {
+		$folders = explode('/', $name);
+		if($folders[0] !== $name) {
 			return true;
 		} else {
 			return false;
@@ -42,7 +43,8 @@ class Cache {
 		$folders = explode('/', $name);
 		unset($folders[count($folders) - 1]);
 		foreach($folders as $folder) {
-			mkdir($this->cacheFolder . "/" . $folder);
+			//TODO fix so folders doesn't get created when folder already exists
+			@mkdir($this->cacheFolder . "/" . $folder);
 		}
 	}
 

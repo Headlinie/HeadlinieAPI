@@ -2,5 +2,6 @@
 namespace WorldNews\Sources;
 
 interface ISource {
-	public function getTopArticles();
+	function getTopArticles();
+	function convertToArticleObject($article);
 }

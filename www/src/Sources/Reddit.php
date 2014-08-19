@@ -4,7 +4,9 @@ namespace WorldNews\Sources;
 
 use WorldNews\BaseSource;
 use WorldNews\Article;
-use GuzzleHttp\Client;
+use WorldNews\Requestor;
+
+//TODO fix so this doesn't uses Guzzle directly but the Requestor
 
 class Reddit extends BaseSource implements ISource {
 	public $name = "reddit";
@@ -12,7 +14,7 @@ class Reddit extends BaseSource implements ISource {
 	public $endpoint = "http://www.reddit.com/r/worldnews.json";
 	public $category = "";
 
-	private function convertToArticleObject($article)
+	public function convertToArticleObject($article)
 	{
 		$ret = new Article();
 		$ret->title = $article->title;
@@ -26,9 +28,7 @@ class Reddit extends BaseSource implements ISource {
 	}
 
 	public function getTopArticles() {
-		$client = new Client();
-		$res = $client->get($this->endpoint, []);
-		$body = json_decode($res->getBody());
+		$body = Requestor::GETAsJson($this->endpoint);
 		$articles = $body->data->children;
 		$ret = [];
 		foreach($articles as $article) {
@@ -36,4 +36,4 @@ class Reddit extends BaseSource implements ISource {
 		}
 		return $ret;
 	}
-}
+};
