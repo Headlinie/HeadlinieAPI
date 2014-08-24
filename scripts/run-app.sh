@@ -31,7 +31,7 @@ else
 fi
 
 if [ "$composer" ]; then
-  (cd /headlinie/api && composer install -vvv --prefer-source --dev --optimize-autoloader)
+  (cd /headlinie/www && composer install -vvv --prefer-source --dev --optimize-autoloader)
 fi
 
 if [ "$fpm" ]; then
