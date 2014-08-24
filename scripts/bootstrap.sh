@@ -56,7 +56,8 @@ if [ "$DEV" == "--dev" ]; then
   echo -e "\033[33;35m##  \033[33;34m -n Start Nginx"
   echo -e "\033[33;35m##"
   echo "#####"
-  docker run -p 8000:8000 -v $WORKING_DIR:/headlinie/:rw -i -t headlinie/api /bin/bash
+  docker rm headlinie_api
+  docker run -p 8000:8000 --name headlinie_api -v $WORKING_DIR:/headlinie/:rw -i -t headlinie/api /bin/bash
 else
   # Non-interactive
   echo "#####"
@@ -64,5 +65,6 @@ else
   echo "## Server started on port 8000"
   echo "##"
   echo "#####"
-  docker run -p 8000:8000 -i -t headlinie/api
+  docker rm headlinie_api
+  docker run --name headlinie_api -p 8000:8000 -i -t headlinie/api&
 fi

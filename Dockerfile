@@ -29,4 +29,4 @@ RUN ln -s /etc/nginx/sites-available/headlinie_api /etc/nginx/sites-enabled/head
 
 EXPOSE 8000
 #CMD /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini && /usr/sbin/nginx -c /etc/nginx/nginx.conf
-CMD sh /headlinie/scripts/run-app.sh -c -n -f -b
+CMD sh /headlinie/scripts/run-app.sh -c -n -f
