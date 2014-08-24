@@ -1,7 +1,7 @@
-WorldNewsBackend
+Headlinie API
 ================
 
-Backend for WorldNews
+API for Headlinie
 
 
 Run
@@ -9,4 +9,4 @@ Run
 
 * Clone repository
 
-* Run ```scripts/bootstrap.sh```
+* Run ```scripts/bootstrap.sh --dev```
