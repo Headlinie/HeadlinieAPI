@@ -1,8 +1,8 @@
 server {
 	listen 8000;
-	root /worldnews/www;
+	root /headlinie/www;
 	index index.html index.htm index.php;
-	server_name victor.bjelkholm.dev;
+	server_name api.headlinie.com;
 	try_files $uri $uri/ /index.php?$args;
 	access_log /dev/stdout;
 	error_log /dev/stdout info;
