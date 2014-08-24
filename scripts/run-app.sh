@@ -5,12 +5,14 @@
 composer=''
 nginx=''
 fpm=''
+background=''
 
-while getopts 'cnf' flag; do
+while getopts 'cnfb' flag; do
   case "${flag}" in
     c) composer='true' ;;
     n) nginx='true' ;;
     f) fpm='true' ;;
+    b) background='true' ;;
     *) echo "Unexpected option ${flag}" ;;
   esac
 done
@@ -35,10 +37,18 @@ if [ "$composer" ]; then
 fi
 
 if [ "$fpm" ]; then
-  /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
+  if [ "$background" ]; then
+    /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini&
+  else
+    /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
+  fi
 fi
 
 if [ "$nginx" ]; then
-  /usr/sbin/nginx -c /etc/nginx/nginx.conf
+  if [ "$background" ]; then
+    /usr/sbin/nginx -c /etc/nginx/nginx.conf&
+  else
+    /usr/sbin/nginx -c /etc/nginx/nginx.conf
+  fi
 fi
 

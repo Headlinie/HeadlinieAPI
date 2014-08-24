@@ -64,5 +64,5 @@ else
   echo "## Server started on port 8000"
   echo "##"
   echo "#####"
-  docker run -p 8000:8000 -i -t headlinie/api&
+  docker run -p 8000:8000 -i -t headlinie/api
 fi
