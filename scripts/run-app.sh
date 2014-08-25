@@ -6,6 +6,8 @@ composer=''
 nginx=''
 fpm=''
 
+CWD=`pwd`
+
 while getopts 'cnf' flag; do
   case "${flag}" in
     c) composer='true' ;;
@@ -31,14 +33,17 @@ else
 fi
 
 if [ "$composer" ]; then
-  (cd /headlinie/www && composer install -vvv --prefer-source --dev --optimize-autoloader)
+  cd /headlinie/www
+  composer install -vvv --prefer-source --dev --optimize-autoloader
 fi
 
 if [ "$fpm" ]; then
+  cd $CWD
   /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
 fi
 
 if [ "$nginx" ]; then
+  cd $CWD
   /usr/sbin/nginx -c /etc/nginx/nginx.conf
 fi
 

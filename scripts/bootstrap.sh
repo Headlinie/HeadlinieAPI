@@ -15,6 +15,14 @@ else
   echo "Building from scratch without any cache!"
 fi
 
+# Get new random port for new container
+random_port=`shuf -i 8000-9000 -n 1`
+
+# Get the id of the old container
+old_container=`docker ps | grep "headlinie/api:latest" | cut -d " " -f1`
+# Get the port of the old container
+old_container_port=`docker inspect $old_container | grep -i "hostport" | tail -n 1 | cut -d '"' -f4`
+
 WORKING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 
 echo "";
@@ -56,7 +64,7 @@ if [ "$DEV" == "--dev" ]; then
   echo -e "\033[33;35m##  \033[33;34m -n Start Nginx"
   echo -e "\033[33;35m##"
   echo "#####"
-  docker run -p 8000:8000 --name headlinie_api -v $WORKING_DIR:/headlinie/:rw -i -t headlinie/api /bin/bash
+  docker run -p 8000:8000 -v $WORKING_DIR:/headlinie/:rw -i -t headlinie/api /bin/bash
 else
   # Non-interactive
   echo "#####"
@@ -64,7 +72,23 @@ else
   echo "## Server started on port 8000"
   echo "##"
   echo "#####"
+
+  # Start new container
+  docker run -p $random_port:8000 -d -t headlinie/api
+
+  # Get the id of the new container
+  new_container=`docker ps | grep "headlinie/api:latest" | cut -d " " -f1`
+  # Get the port of the new container
+  new_container_port=`docker inspect $new_container | grep -i "hostport" | tail -n 1 | cut -d '"' -f4`
+
+  # Tell NGINX to change port to new container
+  sed -i.bak s/$old_container_port/$new_container_port/ /etc/nginx/sites-enabled/headlinie
+
+  sudo service nginx restart
+
+  # Stop old container
   docker stop headlinie_api
+
+  # Remove old container
   docker rm headlinie_api
-  docker run --name headlinie_api -p 8000:8000 -i -t headlinie/api&
 fi
