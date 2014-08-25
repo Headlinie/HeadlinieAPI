@@ -1,11 +1,18 @@
 server {
 	listen 8000;
-	root /headlinie/www;
-	index index.html index.htm index.php;
 	server_name api.headlinie.com;
+	# FILES
+	index index.html index.htm index.php;
+	root /headlinie/www;
 	try_files $uri $uri/ /index.php?$args;
+	# LOGS
 	access_log /dev/stdout;
 	error_log /dev/stdout info;
+	# CORS
+	add_header Access-Control-Allow-Headers "X-Requested-With";
+	add_header Access-Control-Allow-Methods "GET, HEAD, OPTIONS";
+	add_header Access-Control-Allow-Origin "*";
+	# PHP
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		fastcgi_pass unix:/var/run/php5-fpm.sock;
