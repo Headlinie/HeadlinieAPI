@@ -33,19 +33,16 @@ else
 fi
 
 if [ "$composer" ]; then
-  echo "!! Installing composer dependencies"
   cd /headlinie/www
   composer install -vvv --optimize-autoloader --no-dev
 fi
 
 if [ "$fpm" ]; then
-  echo "!! Running PHP-FPM"
   cd $CWD
   /usr/sbin/php5-fpm -y /etc/php5/fpm/php-fpm.conf -c /etc/php5/fpm/php.ini
 fi
 
 if [ "$nginx" ]; then
-  echo "!! Running nginx"
   cd $CWD
   /usr/sbin/nginx -c /etc/nginx/nginx.conf
 fi

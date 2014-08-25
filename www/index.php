@@ -81,12 +81,14 @@ $klein->respond('GET', '/sources/[:source_name]/articles/[:article_url]', functi
 	$url = "http://www.readability.com/api/content/v1/parser?url=";
 	$url = $url . $article_url;
 	//TODO Move away the readability token to configuration/environmental variable
+	//TODO make sure this doesnt stick in SCM after removal
 	$url = $url . "&token=8680f644ff6278a311ff8c0a4713223b20a24f48";
 
 	try {
 	    $response = \WorldNews\Requestor::GET($url);
 	    $cache->save($cache_name, $response);
 	} catch (Exception $e) {
+	    //TODO fix proper error message
 	    $response = '{messages: "Something went wrong... Article ID: ' .md5($article_url). '"}';
 	}
     }
@@ -108,6 +110,7 @@ $klein->respond('GET', '/sources/[:source_name]/articles/[:article_url]', functi
 //$klein->dispatch($request);
 $klein->dispatch();
 
+//TODO remove all this code
 die('Dying!');
 require_once "src/Utils.php";
 
@@ -166,6 +169,7 @@ if(isset($_GET['force-reload'])) {
 
 $url = "http://www.readability.com/api/content/v1/parser?url=";
 $url = $url . $_GET['url'];
+//TODO make sure this doesnt stick in SCM after removal
 $url = $url . "&token=8680f644ff6278a311ff8c0a4713223b20a24f48";
 
 try {

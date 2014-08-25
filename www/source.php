@@ -1,4 +1,5 @@
 <?php
+//TODO remove this file
 require_once('vendor/autoload.php');
 
 use WorldNews\Endpoint;

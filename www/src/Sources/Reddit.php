@@ -6,8 +6,6 @@ use WorldNews\BaseSource;
 use WorldNews\Article;
 use WorldNews\Requestor;
 
-//TODO fix so this doesn't uses Guzzle directly but the Requestor
-
 class Reddit extends BaseSource implements ISource {
 	public $name = "reddit";
 	public $url = "http://www.reddit.com";

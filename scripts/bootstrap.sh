@@ -16,6 +16,7 @@ else
 fi
 
 # Get new random port for new container
+# TODO Make sure there is no collisions
 random_port=`shuf -i 8000-9000 -n 1`
 
 # Get the id of the old container
@@ -23,15 +24,13 @@ old_container=`docker ps | grep "headlinie/api:latest" | cut -d " " -f1`
 # Get the port of the old container
 old_container_port=`docker inspect $old_container | grep -i "hostport" | tail -n 1 | cut -d '"' -f4`
 
+# Get working dir for volumes
 WORKING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
-
-echo "!! Got all configuration data"
 
 echo "";
 echo "### Building image";
 echo "";
 
-echo "!! Building the container"
 if [ "$CACHE" == "--no-cache" ]; then
   docker build --no-cache -t headlinie/api .
 else
@@ -87,17 +86,14 @@ else
   new_container_port=`docker inspect $new_container | grep -i "hostport" | tail -n 1 | cut -d '"' -f4`
 
   # Tell NGINX to change port to new container
-  echo "!! Replaceing $old_container_port with $new_container_port in nginx configuration"
+  # TODO We never want to run this locally unless we're deploying
   sed -i.bak s/$old_container_port/$new_container_port/ /etc/nginx/sites-enabled/headlinie
 
-  echo "!! Restarting nginx"
   sudo service nginx restart
 
   # Stop old container
-  echo "!! Stopping old container"
   docker stop $old_container
 
   # Remove old container
-  echo "!! Removing old container"
   docker rm $old_container
 fi
