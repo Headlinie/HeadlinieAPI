@@ -25,10 +25,13 @@ old_container_port=`docker inspect $old_container | grep -i "hostport" | tail -n
 
 WORKING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 
+echo "!! Got all configuration data"
+
 echo "";
 echo "### Building image";
 echo "";
 
+echo "!! Building the container"
 if [ "$CACHE" == "--no-cache" ]; then
   docker build --no-cache -t headlinie/api .
 else
@@ -74,6 +77,7 @@ else
   echo "#####"
 
   # Start new container
+  echo "!! Starting new container on port $random_port"
   docker run -p $random_port:8000 -d -t headlinie/api
 
   # Get the id of the new container
@@ -82,13 +86,17 @@ else
   new_container_port=`docker inspect $new_container | grep -i "hostport" | tail -n 1 | cut -d '"' -f4`
 
   # Tell NGINX to change port to new container
+  echo "!! Replaceing $old_container_port with $new_container_port in nginx configuration"
   sed -i.bak s/$old_container_port/$new_container_port/ /etc/nginx/sites-enabled/headlinie
 
+  echo "!! Restarting nginx"
   sudo service nginx restart
 
   # Stop old container
+  echo "!! Stopping old container"
   docker stop $old_container
 
   # Remove old container
+  echo "!! Removing old container"
   docker rm $old_container
 fi
