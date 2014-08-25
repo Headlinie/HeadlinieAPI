@@ -35,7 +35,7 @@ fi
 if [ "$composer" ]; then
   echo "!! Installing composer dependencies"
   cd /headlinie/www
-  composer install -vvv --prefer-source --dev --optimize-autoloader
+  composer install -vvv --optimize-autoloader --no-dev
 fi
 
 if [ "$fpm" ]; then

@@ -9,7 +9,7 @@
 //echo "</pre>";
 //die();
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once '/composer/autoload.php';
 
 $klein = new \Klein\Klein();
 

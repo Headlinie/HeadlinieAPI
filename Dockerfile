@@ -12,11 +12,13 @@ RUN mv composer.phar /usr/local/bin/composer
 
 # Application stuff
 
-RUN mkdir -p /headlinie/api
-ADD www/composer.json /headlinie/api/composer.json
-RUN (cd /headlinie/api; composer install -o)
+RUN mkdir -p /headlinie/
+RUN mkdir /composer
+WORKDIR /headlinie/www
+ADD www/composer.json /headlinie/www/composer.json
+RUN composer install -vvv --optimize-autoloader --no-dev
 ADD . /headlinie/
-RUN (cd /headlinie/api; composer install -o)
+WORKDIR /
 
 # Configuration stuff
 
@@ -28,4 +30,4 @@ RUN ln -s /etc/nginx/sites-available/headlinie_api /etc/nginx/sites-enabled/head
 # Running stuff
 
 EXPOSE 8000
-CMD sh /headlinie/scripts/run-app.sh -c -n -f
+CMD sh /headlinie/scripts/run-app.sh -n -f

@@ -1,11 +1,16 @@
 {
     "name": "WorldNews/Backend",
     "require": {
-        "phpunit/phpunit": "@stable",
-        "d11wtq/boris": "@stable",
-        "iakio/gntp-notify": "@stable",
         "klein/klein": "@stable",
         "guzzlehttp/guzzle": "@stable"
+    },
+    "require-dev": {
+        "d11wtq/boris": "@stable",
+        "phpunit/phpunit": "@stable",
+        "iakio/gntp-notify": "@stable"
+    },
+    "config": {
+        "vendor-dir": "/composer"
     },
     "license": "MIT",
     "authors": [
@@ -15,6 +20,6 @@
         }
     ],
     "autoload": {
-        "psr-4": {"WorldNews\\": "src/"}
+        "psr-4": {"WorldNews\\": "/headlinie/www/src"}
     }
 }
