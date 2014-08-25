@@ -78,7 +78,7 @@ else
 
   # Start new container
   echo "!! Starting new container on port $random_port"
-  docker run -p $random_port:8000 -i -t headlinie/api
+  docker run -p $random_port:8000 -d -t headlinie/api
 
   # Get the id of the new container
   new_container=`docker ps | grep "headlinie/api:latest" | cut -d " " -f1`
