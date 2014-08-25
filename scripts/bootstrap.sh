@@ -87,8 +87,8 @@ else
   sudo service nginx restart
 
   # Stop old container
-  docker stop headlinie_api
+  docker stop $old_container
 
   # Remove old container
-  docker rm headlinie_api
+  docker rm $old_container
 fi
