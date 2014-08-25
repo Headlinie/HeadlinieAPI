@@ -28,5 +28,4 @@ RUN ln -s /etc/nginx/sites-available/headlinie_api /etc/nginx/sites-enabled/head
 # Running stuff
 
 EXPOSE 8000
-#CMD sh /headlinie/scripts/run-app.sh -c -n -f
-CMD sh /headlinie/scripts/run-app.sh -n -f
+CMD sh /headlinie/scripts/run-app.sh -c -n -f
