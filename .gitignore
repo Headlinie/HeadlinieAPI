@@ -1,4 +1,3 @@
 !.gitkeep
 *.DS_Store
 www/tests/data/cacheFolder
-www/vendor/
