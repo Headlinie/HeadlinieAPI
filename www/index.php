@@ -25,6 +25,7 @@ $klein = new \Klein\Klein();
 
 //Approved classes, required for get_declared_classes() to work
 new WorldNews\Sources\Reddit();
+new WorldNews\Sources\HackerNews();
 
 //End approved classes
 
@@ -111,75 +112,4 @@ $klein->respond('GET', '/sources/[:source_name]/articles/[:article_url]', functi
 $klein->dispatch();
 
 //TODO remove all this code
-die('Dying!');
-require_once "src/Utils.php";
-
-error_reporting(E_ERROR | E_PARSE);
-
-/* gets the contents of a file if it exists, otherwise grabs and caches */
-function get_content($file,$url,$hours = 24) {
-	$current_time = time(); $expire_time = $hours * 60 * 60; $file_time = filemtime($file);
-	if(file_exists($file) && ($current_time - $expire_time < $file_time)) {
-		return file_get_contents($file);
-	}
-	else {
-		$content = get_url($url);
-		file_put_contents($file,$content);
-		return $content;
-	}
-}
-
-/* gets content from a URL via curl */
-function get_url($url) {
-	$curl_connection = curl_init();
-	curl_setopt($curl_connection,CURLOPT_URL,$url);
-	curl_setopt($curl_connection,CURLOPT_RETURNTRANSFER,1); 
-	curl_setopt($curl_connection,CURLOPT_CONNECTTIMEOUT,5);
-	$content = curl_exec($curl_connection);
-	if(!$content) {
-		throw new Exception(curl_error($curl_connection));
-	}
-	curl_close($curl_connection);
-	return $content;
-}
-
-function remove_cache($file) {
-	if(!unlink($file)) {
-		// throw new Exception('Couldnt delete cached response!');
-	}
-}
-
-header('Content-Type: application/json');
-
-if(!isset($_GET['url'])) {
-	throw new Exception("Your bad");
-}
-$folderName = Utils::get_domain($_GET['url']);
-if(!file_exists('cache/'.$folderName)) {
-	mkdir('cache/'.$folderName);
-}
-$cacheName = 'cache/' . $folderName . '/' . md5($_GET['url']);
-
-if(isset($_GET['force-reload'])) {
-	$forceReload = $_GET['force-reload'];
-	if($forceReload === "true") {
-		remove_cache($cacheName);
-	}
-}
-
-$url = "http://www.readability.com/api/content/v1/parser?url=";
-$url = $url . $_GET['url'];
-//TODO make sure this doesnt stick in SCM after removal
-$url = $url . "&token=8680f644ff6278a311ff8c0a4713223b20a24f48";
-
-try {
-	$output = get_content($cacheName, $url, 24);
-	$output = Utils::replace_images($output);
-	if(!$output) {
-		$output = '{"messages": "Something went wrong... ID: '.$cacheName.'"}';
-	}
-} catch (Exception $e) {
-	$output = '{"messages": "'.$e->getMessage().'"}';
-}
-
-echo $output;
+die();

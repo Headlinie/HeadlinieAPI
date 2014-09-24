@@ -20,6 +20,9 @@
         }
     ],
     "autoload": {
-        "psr-4": {"WorldNews\\": "/headlinie/www/src"}
+        "psr-4": {
+            "WorldNews\\": "/headlinie/www/src",
+            "WorldNews\\": "src"
+        }
     }
 }
